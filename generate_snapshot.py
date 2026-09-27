@@ -12,8 +12,8 @@ prompt = (
     "Include sections for Objectives, Key Progress, Constraints, and Open Questions."
 )
 
-# List of reliable models to try in sequence
-models_to_try = ["gemini-2.5-flash-lite", "gemini-2.5-flash", "gemini-2.0-flash"]
+# Active Gemini 3.x model identifiers
+models_to_try = ["gemini-3.8-flash", "gemini-3.5-flash-lite", "gemini-3.6-flash"]
 response = None
 
 for model in models_to_try:
@@ -26,18 +26,18 @@ for model in models_to_try:
             )
             print(f"Successfully generated response using '{model}'.")
             break
-        except ServerError as e:
+        except ServerError:
             print(f"Google API reported high demand on '{model}'. Retrying in 5 seconds...")
             time.sleep(5)
         except Exception as e:
-            print(f"Unexpected error with model '{model}': {e}")
+            print(f"Could not connect to model '{model}': {e}")
             break
             
     if response:
         break
 
 if not response:
-    raise RuntimeError("All Gemini API models are currently experiencing high server demand. Please try again in a few minutes.")
+    raise RuntimeError("Unable to reach active Gemini API models. Please verify API key and permissions.")
 
 # Create timestamp and output directory
 timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
