@@ -11,7 +11,7 @@ prompt = (
     "Include sections for Objectives, Key Progress, Constraints, and Open Questions."
 )
 
-# Call Gemini model
+# Call Gemini model using current stable Flash model
 response = client.models.generate_content(
     model="gemini-3.8-flash",
     contents=prompt,
